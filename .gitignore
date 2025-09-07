@@ -44,6 +44,9 @@ Thumbs.db
 # Vercel
 .vercel/
 
+# Swagger (ignore only if auto-generated)
+swagger.json
+
 # Temporary files
 tmp/
 temp/
