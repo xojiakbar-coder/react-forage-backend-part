@@ -9,9 +9,7 @@ const options = {
       description: "Oddiy Node.js API uchun Swagger hujjat",
     },
     servers: [
-      {
-        url: "https://react-forage-backend-inimitable.vercel.app",
-      },
+      {url: "https://react-forage-backend-inimitable.vercel.app"},
     ],
   },
   apis: ["./index.js"],

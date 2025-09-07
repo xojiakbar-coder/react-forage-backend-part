@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "react-forage-backend",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
@@ -17,6 +17,7 @@
     "express": "^5.1.0",
     "mongoose": "^8.18.0",
     "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.28.1",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
