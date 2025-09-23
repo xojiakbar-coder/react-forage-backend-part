@@ -6,17 +6,10 @@ import userRoutes from "./routes/userRoutes.js";
 import todoRoutes from "./routes/todoRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import pool from "./db.js";
-import authController from "./controllers/authController.js";
 
 dotenv.config();
 
 const app = express();
-
-const router = express.Router();
-
-router.post("/signup", authController.signup);
-router.post("/signin", authController.signin);
-router.post("/signout", authController.signout);
 
 // Middleware
 app.use(express.json());
@@ -30,8 +23,10 @@ app.use("/api/todos", todoRoutes);
 // Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+// Port
 const port = process.env.PORT || 3000;
 
+// DB test route
 app.get("/db-test", async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT 1 + 1 AS result");
