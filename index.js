@@ -6,10 +6,29 @@ import userRoutes from "./routes/userRoutes.js";
 import todoRoutes from "./routes/todoRoutes.js";
 import swaggerUi from "swagger-ui-express";
 import pool from "./db.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+
+const allowedOrigins = [
+  "http://localhost:4004",
+  "https://react-forage.netlify.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // agar cookie/session ishlatsang kerak bo‘ladi
+  })
+);
 
 // Middleware
 app.use(express.json());
