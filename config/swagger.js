@@ -8,7 +8,7 @@ const options = {
       version: "1.0.0",
       description: "Oddiy Node.js API uchun Swagger hujjat",
     },
-    servers: [{ url: "http://localhost:3000" }],
+    servers: [{ url: process.env.BASE_URL || "http://localhost:3000" }],
   },
   apis: ["./routes/*.js"],
 };

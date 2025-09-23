@@ -50,6 +50,7 @@ swagger.json
 # env
 .env
 .env.local
+.env.production
 
 # Temporary files
 tmp/

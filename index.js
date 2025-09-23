@@ -21,7 +21,13 @@ app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
 
 // Swagger UI
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    customCssUrl: "https://unpkg.com/swagger-ui-dist/swagger-ui.css",
+  })
+);
 
 // Port
 const port = process.env.PORT || 3000;
