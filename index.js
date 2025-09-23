@@ -1,33 +1,46 @@
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import { swaggerSpec } from "./swagger.js";
+import dotenv from "dotenv";
+import swaggerSpec from "./config/swagger.js";
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import todoRoutes from "./routes/todoRoutes.js";
+import swaggerUi from "swagger-ui-express";
+import pool from "./db.js";
+import authController from "./controllers/authController.js";
+
+dotenv.config();
 
 const app = express();
 
-// __dirname o‘rnini ES Module uchun yasaymiz
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const router = express.Router();
 
-// Swagger JSON
-app.get("/swagger.json", (req, res) => {
-  res.json(swaggerSpec);
-});
+router.post("/signup", authController.signup);
+router.post("/signin", authController.signin);
+router.post("/signout", authController.signout);
 
-// Swagger UI static fayllarini serve qilish
-import swaggerUiDist from "swagger-ui-dist";
-const swaggerUiPath = swaggerUiDist.absolutePath();
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/api-docs", express.static(swaggerUiPath));
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/todos", todoRoutes);
 
-// Swagger UI index.html faylini json bilan bog‘lash
-app.get("/api-docs", (req, res) => {
-  res.sendFile(path.join(swaggerUiPath, "index.html"));
-});
+// Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server ${port} portda ishlayapti`);
+
+app.get("/db-test", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT 1 + 1 AS result");
+    res.json({ dbStatus: "OK", result: rows[0].result });
+  } catch (err) {
+    res.status(500).json({ dbStatus: "Error", message: err.message });
+  }
 });
 
-export default app;
+app.listen(port, () => {
+  console.log(`Server running on port http://localhost:${port}`);
+});

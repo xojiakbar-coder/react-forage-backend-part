@@ -47,6 +47,10 @@ Thumbs.db
 # Swagger (ignore only if auto-generated)
 swagger.json
 
+# env
+.env
+.env.local
+
 # Temporary files
 tmp/
 temp/
